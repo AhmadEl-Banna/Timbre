@@ -3,6 +3,8 @@ define(function(require, exports, module) {
     var Surface       = require('famous/core/Surface');
     var Transform     = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
+    var Transitionable  = require('famous/transitions/Transitionable');
+    var Modifier       = require('famous/core/Modifier');
 
     var PageView = require('views/PageView');
     var MenuView = require('views/MenuView');
@@ -17,7 +19,7 @@ define(function(require, exports, module) {
         View.apply(this, arguments);
 
         this.menuToggle = false;
-        this.pageViewPos = 0;
+        this.pageViewPos = new Transitionable(0);
 
         _createPageView.call(this);
         _createMenuView.call(this);
@@ -46,17 +48,25 @@ define(function(require, exports, module) {
         this.menuToggle = !this.menuToggle;
     };
 
-    AppView.prototype.slideLeft = function() {
-        this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
+    AppView.prototype.slideRight = function() {
+        this.pageViewPos.set(this.options.openPosition, this.options.transition, function() {
+            this.menuToggle = true;
+        }.bind(this));
     };
 
-    AppView.prototype.slideRight = function() {
-        this.pageModifier.setTransform(Transform.translate(this.options.openPosition, 0, 0), this.options.transition);
+    AppView.prototype.slideLeft = function() {
+        this.pageViewPos.set(0, this.options.transition, function() {
+            this.menuToggle = false;
+        }.bind(this));
     };
 
     function _createPageView() {
         this.pageView = new PageView();
-        this.pageModifier = new StateModifier();
+        this.pageModifier = new Modifier({
+            transform: function() {
+                return Transform.translate(this.pageViewPos.get(), 0, 0);
+            }.bind(this)
+        });
 
         this.add(this.pageModifier).add(this.pageView);
     }
