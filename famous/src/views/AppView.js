@@ -36,7 +36,9 @@ define(function(require, exports, module) {
         transition: {
             duration: 300,
             curve: 'easeOut'
-        }
+        },
+        posThreshold: 138,
+        velThreshold: 0.75
     };
 
     AppView.prototype.toggleMenu = function() {
@@ -96,6 +98,25 @@ define(function(require, exports, module) {
         sync.on('update', function(data) {
             var currentPosition = this.pageViewPos.get();
             this.pageViewPos.set(Math.max(0, currentPosition + data.delta));
+        }.bind(this));
+
+        sync.on('end', function(data) {
+            var velocity = data.velocity;
+            var position = this.pageViewPos.get();
+
+            if(position > this.options.posThreshold) {
+                if(velocity < -this.options.velThreshold) {
+                    this.slideLeft();
+                } else {
+                    this.slideRight();
+                }
+            } else {
+                if(velocity > this.options.velThreshold) {
+                    this.slideRight();
+                } else {
+                    this.slideLeft();
+                }
+            }
         }.bind(this));
     }
     module.exports = AppView;
