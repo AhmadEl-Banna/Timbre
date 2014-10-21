@@ -1,0 +1,17 @@
+<fa-modifier fa-translate="transition.get()">
+    <fa-header-footer-layout>
+        <fa-modifier fa-size="bkgdSurface.properties.size">
+            <fa-surface fa-background-color="bkgdSurface.properties.backgroundColor"></fa-surface>
+
+            <fa-modifier fa-align="component.align" fa-origin="component.origin" ng-repeat="component in headerComponents track by $index">
+                <fa-image-surface fa-click="toggleMenu()" fa-size="component.size" fa-image-url="{{ component.content }}"></fa-image-surface>
+            </fa-modifier>
+        </fa-modifier>
+
+        <fa-image-surface fa-size="content.size" fa-image-url="{{ content.content }}"></fa-image-surface>
+
+        <fa-modifier fa-size="[undefined, 20]">
+            <fa-surface fa-background-color="bkgdSurface.properties.backgroundColor"></fa-surface>
+        </fa-modifier>
+    </fa-header-footer-layout>
+</fa-modifier>

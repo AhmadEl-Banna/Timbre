@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html ng-app="Timbre">
+<head>
+    <title>Famous-Angular: Timbre</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1, user-scalable=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="stylesheet" href="libs/famous-angular/dist/famous-angular.css">
+    <link rel="stylesheet" type="text/css" href="styles/app.min.css" />
+</head>
+<body>
+    <fa-app class="app" ng-controller="AppController">
+        <ui-view></ui-view>
+    </fa-app>
+
+    <script type="text/javascript" src="libs/angular/angular.js"></script>
+    <script type="text/javascript" src="libs/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="libs/famous/dist/famous-global.js"></script>
+    <script type="text/javascript" src="libs/famous-angular/dist/famous-angular.js"></script>
+
+    <script type="text/javascript" src="app.js"></script>
+
+    <!--SCRIPTS-->
+    <script type="text/javascript" src="scripts/controllers/AppController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/MenuController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/PageController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/StripController.js"></script>
+    <!--SCRIPTS END-->
+</body>
+</html>
