@@ -8,11 +8,17 @@ Timbre.controller('MenuController', ['$scope', '$famous', '$timeline',
         $scope.t = new Transitionable(0);
 
         $scope.enter = function($done) {
-            $scope.t.set(1, {duration: 300}, $done);
+            $scope.t.set(1, {
+                duration: 1000,
+                curve: 'easeOut'
+            }, $done);
         };
 
         $scope.leave = function($done) {
-            $scope.t.set(0, {duration: 300}, $done);
+            $scope.t.set(0, {
+                duration: 1000,
+                curve: 'easeOut'
+            }, $done);
         };
 
         $scope.translate = $timeline([

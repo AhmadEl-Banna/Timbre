@@ -12,8 +12,11 @@ var cssmin = require('gulp-cssmin'),
     rimraf = require('gulp-rimraf'),
     watch = require('gulp-watch');
 
-var EXPRESS_PORT = 4000;
-var APP_DIR = 'famous-angular/';
+var NG_PORT = 4000;
+var FAMOUS_PORT = 4001;
+
+var NG_DIR = 'famous-angular/';
+var FAMOUS_DIR = 'famous/';
 var server = livereload();
 
 
@@ -39,7 +42,7 @@ gulp.task('watch:js', function() {
 });
 
 gulp.task('watch:style', function() {
-    gulp.watch(APP_DIR + 'styles/**/*.less', ['compile:styles']);
+    gulp.watch(NG_DIR + 'styles/**/*.less', ['compile:styles']);
 });
 /*--------------------------------------------------------------*/
 //[END] WATCHERS
@@ -50,13 +53,13 @@ gulp.task('watch:style', function() {
 gulp.task('compile', ['compile:styles']);
 
 gulp.task('compile:styles', ['clean:styles'], function () {
-    gulp.src(APP_DIR + 'styles/less/app.less')
+    gulp.src(NG_DIR + 'styles/less/app.less')
         .pipe(less({
             paths: [ path.join(__dirname, 'less', 'includes') ]
         }))
         .pipe(cssmin())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(APP_DIR + '/styles/'));
+        .pipe(gulp.dest(NG_DIR + '/styles/'));
 });
 /*--------------------------------------------------------------*/
 //[END] COMPILERS
@@ -68,62 +71,88 @@ gulp.task('clean', ['clean:styles']);
 
 //NOT WORKING
 gulp.task('clean:styles', function() {
-    return gulp.src(APP_DIR + 'styles/app.min.css', { read: false })
+    return gulp.src(NG_DIR + 'styles/app.min.css', { read: false })
         .pipe(rimraf());
 });
 /*--------------------------------------------------------------*/
 //[END] CLEANERS
 
-gulp.task('linker', function() {
-    gulp.src(APP_DIR + 'index.html')
-        // Link the JavaScript
-        .pipe(linker({
-            scripts: [APP_DIR + 'scripts/**/*.js' ],
-            startTag: '<!--SCRIPTS-->',
-            endTag: '<!--SCRIPTS END-->',
-            fileTmpl: '<script type="text/javascript" src="%s"></script>',
-            appRoot: APP_DIR
-        }))
-        .pipe(gulp.dest(APP_DIR));
-});
 
-gulp.task('serve', function() {
+//  SERVER CONFIGS
+/*--------------------------------------------------------------*/
+gulp.task('serve:ngfamous', function() {
     var express = require('express'),
         app = express();
 
     app.use(require('connect-livereload')());
-    app.use(express.static(APP_DIR));
+    app.use(express.static(NG_DIR));
 
     app.get('*', function(req, res) {
-        res.sendFile(__dirname + '/' + APP_DIR + 'index.html');
+        res.sendFile(__dirname + '/' + NG_DIR + 'index.html');
     });
 
-    app.listen(EXPRESS_PORT);
+    app.listen(NG_PORT);
 
-    require('opn')('http://localhost:4000');
+    require('opn')('http://localhost:' + NG_PORT);
 
-    gutil.log('Server running at ', gutil.colors.cyan('http://localhost:'+EXPRESS_PORT+'/'));
+    gutil.log('Server running at ', gutil.colors.cyan('http://localhost:'+ NG_PORT +'/'));
 });
 
-// Main watch task for development
+gulp.task('serve:famous', function() {
+    var express = require('express'),
+        app = express();
+
+    app.use(require('connect-livereload')());
+    app.use(express.static(FAMOUS_DIR));
+
+    app.get('*', function(req, res) {
+        res.sendFile(__dirname + '/' + FAMOUS_DIR + 'index.html');
+    });
+
+    app.listen(FAMOUS_PORT);
+
+    require('opn')('http://localhost:' + FAMOUS_PORT);
+
+    gutil.log('Server running at ', gutil.colors.cyan('http://localhost:'+ FAMOUS_PORT +'/'));
+});
+/*--------------------------------------------------------------*/
+//[END] SERVER CONFIGS
+
+
+gulp.task('linker', function() {
+    gulp.src(NG_DIR + 'index.html')
+        // Link the JavaScript
+        .pipe(linker({
+            scripts: [NG_DIR + 'scripts/**/*.js' ],
+            startTag: '<!--SCRIPTS-->',
+            endTag: '<!--SCRIPTS END-->',
+            fileTmpl: '<script type="text/javascript" src="%s"></script>',
+            appRoot: NG_DIR
+        }))
+        .pipe(gulp.dest(NG_DIR));
+});
+
+
+//
+/*--------------------------------------------------------------*/
 gulp.task('dev', ['lint', 'compile'], function() {
     function reloadPage(file) {
         server.changed(file.path);
     }
 
-    gulp.watch([APP_DIR + 'styles/**/*.less'], [])
+    gulp.watch([NG_DIR + 'styles/**/*.less'], [])
         .on('change', reloadPage);
 
-    gulp.watch([APP_DIR + 'scripts/**/*', APP_DIR + 'scripts/*.js'], ['linker'])
+    gulp.watch([NG_DIR + 'scripts/**/*', NG_DIR + 'scripts/*.js'], ['linker'])
         .on('change', reloadPage);
 
-    gulp.watch([APP_DIR + 'views/**/*'])
+    gulp.watch([NG_DIR + 'views/**/*'])
         .on('change', reloadPage);
 
-    gulp.watch([APP_DIR + 'index.html'])
+    gulp.watch([NG_DIR + 'index.html'])
         .on('change', reloadPage);
 
-    gulp.start('serve');
+    gulp.start('serve:ngfamous');
 });
 
 gulp.task('default', ['dev'], function() {});

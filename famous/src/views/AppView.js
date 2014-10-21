@@ -34,7 +34,7 @@ define(function(require, exports, module) {
     AppView.DEFAULT_OPTIONS = {
         openPosition: 276,
         transition: {
-            duration: 300,
+            duration: 1000,
             curve: 'easeOut'
         },
         posThreshold: 138,

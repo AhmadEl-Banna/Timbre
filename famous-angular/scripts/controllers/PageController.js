@@ -50,16 +50,22 @@ Timbre.controller('PageController', ['$state', '$scope', '$famous', '$timeline',
         $scope.t = new Transitionable(0);
 
         $scope.enter = function($done) {
-            $scope.t.set(1, {duration: 300}, $done);
+            $scope.t.set(1, {
+                duration: 1000,
+                curve: 'easeOut'
+            }, $done);
         };
 
         $scope.leave = function() {
-            $scope.t.set(0, {duration: 300});
+            $scope.t.set(0, {
+                duration: 1000,
+                curve: 'easeOut'
+            });
         };
 
         $scope.translate = $timeline([
-            [0, [276, 0,.1]],
-            [1, [0, 0,.1]]
+            [0, [276, 0, .1]],
+            [1, [0, 0, .1]]
         ]);
 
         $scope.toggleMenu = function () {

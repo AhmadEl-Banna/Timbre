@@ -17,6 +17,9 @@ Timbre.config(['$stateProvider', '$urlRouterProvider',
                 url: '/menu',
                 templateUrl: 'views/menu.html',
                 controller: 'MenuController'
+            })
+            .state('menu.strip', {
+                url: ''
             });
 
         $urlRouterProvider.otherwise('/page');
