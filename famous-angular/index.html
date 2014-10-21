@@ -12,7 +12,7 @@
 </head>
 <body>
     <fa-app class="app" ng-controller="AppController">
-        <ui-view></ui-view>
+        <ui-view fa-animate-enter='enter($done)' fa-animate-leave='leave($done)'></ui-view>
     </fa-app>
 
     <script type="text/javascript" src="libs/angular/angular.js"></script>

@@ -1,24 +1,19 @@
 'use strict';
 
-Timbre.controller('AppController', ['$scope', '$famous',
-function ($scope, $famous) {
-    var self = this;
+Timbre.controller('AppController', ['$scope', '$state',
+function ($scope, $state) {
+    var isToggled = false;
 
-    this.init = function () {
-        this.setScope();
-        this.load();
-    };
+    $scope.$on('toggleMenu', function() {
+        // console.info('menu toggled', isToggled);
 
-    this.load = function () {
-        this.setScopeEvents();
-    };
+        // This is not working for some reason
+        /*if(!isToggled) {
+            $state.go('menu');
+        } else {
+            $state.go('page');
+        }*/
 
-    this.setScope = function () {
-    };
-
-    this.setScopeEvents = function () {
-        $scope.$on('menuToggle', function() {});
-    };
-
-    this.init();
+        // isToggled = !isToggled;
+    });
 }]);

@@ -8,16 +8,16 @@ var Timbre = angular.module('Timbre', [
 Timbre.config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
         $stateProvider
-            .state('app', {
-                url: '/app',
-                templateUrl: 'views/app.html',
-                controller: 'AppController'
-            })
             .state('page', {
                 url: '/page',
                 templateUrl: 'views/page.html',
                 controller: 'PageController'
+            })
+            .state('menu', {
+                url: '/menu',
+                templateUrl: 'views/menu.html',
+                controller: 'MenuController'
             });
 
-        $urlRouterProvider.otherwise('/app');
+        $urlRouterProvider.otherwise('/page');
     }]);

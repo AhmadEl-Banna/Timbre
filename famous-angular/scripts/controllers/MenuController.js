@@ -1,25 +1,22 @@
 'use strict';
 
-Timbre.controller('MenuController', ['$scope', '$famous',
-    function ($scope, $famous) {
-        var self = this;
-        var Transform = $famous['famous/core/Transform'];
+Timbre.controller('MenuController', ['$scope', '$famous', '$timeline',
+    function ($scope, $famous, $timeline) {
+        var Transitionable = $famous['famous/transitions/Transitionable'];
+        var Easing = $famous['famous/transitions/Easing'];
 
+        $scope.t = new Transitionable(0);
 
-        this.init = function () {
-            this.setScope();
-            this.load();
+        $scope.enter = function($done) {
+            $scope.t.set(1, {duration: 300}, $done);
         };
 
-        this.load = function () {
-            this.setScopeEvents();
+        $scope.leave = function($done) {
+            $scope.t.set(0, {duration: 300}, $done);
         };
 
-        this.setScope = function () {
-        };
-
-        this.setScopeEvents = function () {
-        };
-
-        this.init();
+        $scope.translate = $timeline([
+            [0, [0, 0, 0]],
+            [1, [200, 0, 0]]
+        ]);
     }]);
