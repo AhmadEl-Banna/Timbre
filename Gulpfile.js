@@ -135,7 +135,7 @@ gulp.task('linker', function() {
 
 //
 /*--------------------------------------------------------------*/
-gulp.task('dev', ['lint', 'compile'], function() {
+gulp.task('dev', ['lint', 'compile', 'linker'], function() {
     function reloadPage(file) {
         server.changed(file.path);
     }

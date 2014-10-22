@@ -1,17 +1,11 @@
 'use strict';
 
-Timbre.controller('PageController', ['$state', '$scope', '$famous', '$timeline',
-    function ($state, $scope, $famous, $timeline) {
-        var self = this;
+Timbre.controller('PageController', ['$state', '$scope', '$famous', '$timeline', 'AppEnums',
+    function ($state, $scope, $famous, $timeline, AppEnums) {
         var isToggled = false;
 
-        var Transform = $famous['famous/core/Transform'];
         var FastClick = $famous['famous/inputs/FastClick'];
-
         var Transitionable = $famous['famous/transitions/Transitionable'];
-        var Easing = $famous['famous/transitions/Easing'];
-
-        $scope.transition = new Transitionable(0);
 
         $scope.bkgdSurface = {
             properties: {
@@ -50,26 +44,20 @@ Timbre.controller('PageController', ['$state', '$scope', '$famous', '$timeline',
         $scope.t = new Transitionable(0);
 
         $scope.enter = function($done) {
-            $scope.t.set(1, {
-                duration: 1000,
-                curve: 'easeOut'
-            }, $done);
+            $scope.t.set(1, AppEnums.transitions, $done);
         };
 
         $scope.leave = function() {
-            $scope.t.set(0, {
-                duration: 1000,
-                curve: 'easeOut'
-            });
+            $scope.t.set(0, AppEnums.transitions);
         };
 
         $scope.translate = $timeline([
-            [0, [276, 0, .1]],
-            [1, [0, 0, .1]]
+            [0, [276, 0, 0.1]],
+            [1, [0, 0, 0.1]]
         ]);
 
         $scope.toggleMenu = function () {
-//            $scope.$emit('toggleMenu');
+            // $scope.$emit('toggleMenu');
 
             if(!isToggled) {
                 $state.go('menu');

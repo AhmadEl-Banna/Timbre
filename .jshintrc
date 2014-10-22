@@ -25,7 +25,8 @@
         "angular",
         "__dirname",
         "process",
-        "define"
+        "define",
+        "Timbre"
     ],
 
     // Development.

@@ -1,3 +1,14 @@
 <fa-modifier fa-translate="translate(t.get())">
-    <fa-surface>Menu Test</fa-surface>
+    <fa-modifier fa-translate="item.translate" ng-repeat="item in stripMenuItems track by $index" fa-size="[320, 50]">
+    <!--<fa-modifier fa-transform="transform" ng-repeat="item in stripMenuItems track by $index" fa-size="[320, 50]">-->
+            <fa-surface fa-background-color="'black'"></fa-surface>
+
+            <fa-modifier fa-size="[32, 32]" fa-translate="[24, 8, 0]">
+                <fa-image-surface fa-image-url="{{ item.iconUrl }}"></fa-image-surface>
+            </fa-modifier>
+
+            <fa-modifier fa-translate="[80, 7, 0]">
+                <fa-surface class="strip-title">{{ item.title }}</fa-surface>
+            </fa-modifier>
+    </fa-modifier>
 </fa-modifier>
